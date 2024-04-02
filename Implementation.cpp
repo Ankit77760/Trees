@@ -104,6 +104,57 @@ public:
         }
         preetydisplay(node->left, level + 1);
     }
+
+    void preOrder()
+    {
+        preOrder(root);
+        cout << "Pre Order";
+    }
+
+    void preOrder(Node *node)
+    {
+        if (node == nullptr)
+        {
+            return;
+        }
+        cout << node->data;
+        preOrder(node->left);
+        preOrder(node->right);
+    }
+
+    void postOrder()
+    {
+        postOrder(root);
+        cout << "Post Order";
+    }
+
+    void postOrder(Node *node)
+    {
+        if (node == nullptr)
+        {
+            return;
+        }
+        postOrder(node->left);
+        postOrder(node->right);
+        cout << node->data;
+    }
+
+    void inOrder()
+    {
+        inOrder(root);
+        cout << "In Order";
+    }
+
+    void inOrder(Node *node)
+    {
+        if (node == nullptr)
+        {
+            return;
+        }
+        inOrder(node->left);
+        cout << node->data;
+        inOrder(node->right);
+    }
 };
 
 int main()
