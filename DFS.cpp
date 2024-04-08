@@ -3,7 +3,6 @@
 
 using namespace std;
 
-// Structure to represent a tree node
 struct TreeNode {
   int val;
   TreeNode* left;
@@ -15,7 +14,6 @@ struct TreeNode {
   }
 };
 
-// Function to perform DFS traversal on a binary tree using a stack
 void DFS(TreeNode* root) {
   if (root == nullptr) {
     return; // Base case: empty tree
@@ -32,7 +30,6 @@ void DFS(TreeNode* root) {
     // Visit the current node (preorder)
     cout << current->val << " ";
 
-    // Push right child first (for preorder) - can be modified for inorder or postorder
     if (current->right != nullptr) {
       nodeStack.push(current->right);
     }
