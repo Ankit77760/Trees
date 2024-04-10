@@ -1,73 +1,54 @@
+#include <bits/stdc++.h>
+using namespace std;
 /**
- * Definition for a binary tree Node.
- * struct Node {
+ * Definition for a binary tree node.
+ * struct TreeNode {
  *     int val;
- *     Node *left;
- *     Node *right;
- *     Node(int x) : val(x), left(NULL), right(NULL) {}
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-#include<bits/stdc++.h>
-using namespace std;
-
-struct Node{
-    int val;
-    Node* left;
-    Node* right;
-    Node(int val){
-        this->val=val;
-    }
-}
-
-class SD{
-    public:
-
-    vector<string>serialize(Node* root){
-        vector<string>list;
-        helper(root,list);
-        return list;
+class Codec {
+public:
+    // Encodes a tree to a single string.
+string serialize(TreeNode* root) {
+        string code;
+        dfs(root, code);
+        return code;
     }
 
-    void helper(TreeNode* root,vector<string>&list){
-        if(root==nullptr){
-            list.push_back("null");
+    void dfs(TreeNode* root, string& code) {
+        if(!root) code += "# ";
+        else {
+            code += to_string(root->val) + ' ';
+            dfs(root->left, code);
+            dfs(root->right, code);
         }
-        list.push_back(to_string(root->val));
-        helper(root->left,list);
-        helper(root->right,list);
     }
 
-    Node* deserealize(vector<string>&list){
-        vector<string>reversed_list(list);
-        reverse(reversed_list.begin(),reversed_list.end());
-        return helper2(reversed_list);
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        int i = 0;
+        return decode(data, i);
     }
 
-    Node* helper2(vector<string>&list){
-        string val=list.back();
-        list.pop_back();
+    TreeNode* decode(string& data, int& i) {
+        string val;
+        while(data[i] != ' ') val += data[i++];
+        
+        if(val == "#") return nullptr;
 
-        if(val=="null"){
-            return nullptr;
-        }
-        Node* node=new Node(stoi(val));
-        node->right=helper2(list);
-        node->left=helper2(list);
+        TreeNode* root = new TreeNode(stoi(val));
+        ++i;
+        root->left = decode(data, i);
+        ++i;
+        root->right = decode(data, i);
 
-        return node;
+        return root;
     }
-}
+};
 
-
-
-int main(){
-    Node *root = new Node(1);
-    root->left = new Node(2);
-    root->right = new Node(3);
-    root->left->left = new Node(4);
-    root->left->right = new Node(5);
-    root->right->left = new Node(6);
-    root->right->right = new Node(7);
-    string s = serialize(root);
-    deserialize(s);
-}
+// Your Codec object will be instantiated and called as such:
+// Codec ser, deser;
+// TreeNode* ans = deser.deserialize(ser.serialize(root));
